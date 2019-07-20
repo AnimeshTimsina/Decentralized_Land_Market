@@ -8,6 +8,14 @@
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <style media="screen">
+    table {
+      border-collapse: collapse;
+      }
+    table, td, th {
+      border: 1px solid black;
+      }
+    </style>
   </head>
   <body>
     <div class="container" style="width: 650px;">
@@ -22,31 +30,57 @@
           <div id="content" style="display: none;">
             <div id="Sale">
             <h4> Plots on sale </h4>
-            <h5> Name </h5>
-           <p id="allPlots">
-          </p>
-          <h5> Location </h5>
-         <p id="allPlotsLocation">
-        </p>
-        <h5> Price </h5>
-       <p id="allPlotsPrice">
-      </p>
+            <table>
+              <thead>
+                <tr>
+                   <th>Name</th>
+                   <th>Price</th>
+                   <th>Location</th>
+                 </tr>
+              </thead>
+              <tbody id="allPlots">
+              </tbody>
+              </table>
     </div>
     <hr/>
     <div id="Mine">
           <h4> My plots </h4>
-          <h5> Name </h5>
-          <p id="myPlots">
-          </p>
-          <h5> Location </h5>
-          <p id="myPlotsLocation">
-          </p>
-          <h5> Price </h5>
-          <p id="myPlotsPrice">
-          </p>
-          <h5> ForSale </h5>
-          <p id="myPlotsForSale">
-          </p>
+          <table>
+          <thead>
+            <tr>
+               <th>Name</th>
+               <th>Price</th>
+               <th>Location</th>
+               <th>ForSale</th>
+             </tr>
+          </thead>
+          <tbody id="myPlots">
+          </tbody>
+          </table>
+          <hr/>
+           <form onSubmit="App.putItUp(); return false;">
+          <div class="form-group">
+                 <label class="textData" for="myPlotSelect">Select a plot to put it up for sale</label>
+
+                 <select class="form-control" id="myPlotSelect">
+                 </select>
+                 <label class="textData" for="priceInput">Put a price on it!</label>
+
+                 <input type="number" id="priceInput"></input>
+               </div>
+         <button type="submit" style="width:100%;border-radius:20px;"class="btn btn-primary">Put it up for sale</button>
+</form>
+<hr/>
+         <form onSubmit="App.takeOffMarketFunc(); return false;">
+        <div class="form-group">
+               <label class="textData" for="takeOffPlot">Select a plot to take off of market</label>
+
+               <select class="form-control" id="takeOffPlot">
+               </select>
+
+             </div>
+       <button type="submit" style="width:100%;border-radius:20px;"class="btn btn-primary">Put it off of market</button>
+</form>
            </div>
 
             <hr/>

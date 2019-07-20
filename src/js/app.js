@@ -50,72 +50,109 @@ App = {
    // Load contract data
     App.contracts.LandContract.deployed().then(function(instance) {
       landInstance = instance;
-      return landInstance.onSaleName();
-    }).then(function(names){
-      $("#allPlots").html(names[1].toString());
-      return landInstance.onSalePrice();
-    }).then(function(price){
-        $("#allPlotsPrice").html(price[0].toString());
-        return landInstance.onSaleLocation();
-      }).then(function(location){
-        $("#allPlotsLocation").html(location);
-        return landInstance.myPlotsName();
-      }).then(function(name){
-        $("#myPlots").html(name);
-        return landInstance.myPlotsLocation();
-      }).then(function(location){
-        $("#myPlotsLocation").html(location);
-        return landInstance.myPlotsPrice();
-      }).then(function(price){
-        $("#myPlotsPrice").html(price.toString());
-        return landInstance.myPlotsSaleCheck();
-      }).then(function(check){
-        $("#myPlotsForSale").html(check.toString());
+      return landInstance.onSaleCount();
+    }).then(function(count){
+      var allPlots= $("#allPlots");
+   allPlots.empty();
 
+   count.forEach(myFunction);
+   function myFunction(i){
+     if (i>0){
+       landInstance.plots(i-1).then(function(plot){
 
+       var name=plot[4];
+       var price=plot[3];
+       var location=plot[5];
 
+       //Render Result
+       var plotTemplate="<tr><th>"+name+"</th><td>"+price+"</td><td>"+location+"</td></tr>"
+       allPlots.append(plotTemplate);
+     });
+     }
 
+   }
+   // $("#allPlots").html(names.toString());
+ //   return landInstance.onSalePrice();
+ // }).then(function(price){
+ //     $("#allPlotsPrice").html(price[0].toString());
+ //     return landInstance.onSaleLocation();
+   }).then(function(location){
+     $("#allPlotsLocation").html(location);
+     return landInstance.myPlotsCount();
+   }).then(function(count){
 
+     var myPlots= $("#myPlots");
+     myPlots.empty();
 
+     count.forEach(myFunction);
+     function myFunction(i){
+       if (i>0){
+       landInstance.plots(i-1).then(function(plot){
+         var name=plot[4];
+         var price=plot[3];
+         var location=plot[5];
+         var forsale=plot[2];
+
+         //Render Result
+         var plotTemplate="<tr><th>"+name+"</th><td>"+price+"</td><td>"+location+"</td><td>"+forsale+"</td></tr>"
+         myPlots.append(plotTemplate);
+       });
+       }
+
+     }
+        return landInstance.idOfMyOffSalePlot();
+      }).then(function(id){
+        var length = id[1];
+        var plotSelect = $("#myPlotSelect");
+        plotSelect.empty();
+        for (var i =0;i<length;i++)
+        {
+
+          var x = id[0][i];
+          var option = "<option value='" + x.toString() + "' >" + x.toString() + "</ option>"
+          plotSelect.append(option);
+          // var option = "<option value='" + "Hello" + "' >" + "Walls" + "</ option>"
+          // plotSelect.append(option);
+
+        }
+        return landInstance.idOfOnSalePlots();
+      }).then(function(id){
+        var length = id[1];
+        var plotSelect = $("#takeOffPlot");
+        plotSelect.empty();
+        for (var i =0;i<length;i++)
+        {
+          var x = id[0][i];
+          var option = "<option value='" + x.toString() + "' >" + x.toString() + "</ option>"
+          plotSelect.append(option);
+
+        }
       loader.hide();
       content.show();
 
-
-      // var plotOwners =(instance.getPlots()).then(response => { return response[0]}).then(obj => {return obj[0]});
-      //
-      // var price = (landInstance.getPlots()).then(response => {return response[2]});
-      // var forSaleCheck = (landInstance.getPlots()).then(response => {return response[1]});
-      // var ForSaleOwnerList = [];
-      // var ForSalePriceList = [];
-      //
-      //
-      // for (var i = 0; i < forSaleCheck.length ; i++) {
-      //     if (forSaleCheck[i] === true) {
-      //       ForSaleOwnerList.append(plotOwners[i]);
-      //       ForSalePriceList.append(price[i]);
-      //     }
-      // }
-      //
-
-
-
-      // for (var i = 0; i < noOfPlots; i++) {
-      //   landInstance.plots(i).then(function(plot) {
-      //     var owner = plot[0];
-      //     var forSale = plot[1];
-      //     var price = plot[2];
-
-      //     // Render candidate ballot option
-
-      //     var plotDetails = '<li class="list-group-item">' + owner + "   ----   " + forSale + "   -----   " + price + "</li>"
-      //     plotList.append(plotDetails);
-      //   });
-      // }
-
-
-      // return landInstance.candidatesCount();
     }).catch(function(error) {
       console.warn(error);
+    });
+  },
+  putItUp: function() {
+    var selectedPlot = $('#myPlotSelect').val();
+    var putPrice = $('#priceInput').val();
+    // $("#testID").html(selectedPlot + " - " + putPrice.toString());
+    App.contracts.LandContract.deployed().then(instance=> {
+      return instance.putPlotUpForSale(selectedPlot-1,putPrice,{ from: App.account })
+    }).then(test => {
+    }).catch(function(err){
+      console.error(err);
+    });
+  },
+  takeOffMarketFunc: function(){
+    var takeOffPlotVar= $('#takeOffPlot').val();
+    // $("#testID").html(takeOffPlot + " - " );
+    App.contracts.LandContract.deployed().then(i=> {
+      return i.takeOffMarket(takeOffPlotVar-1, {from: App.account})
+    }).then(test => {
+    }).catch(function(err){
+      console.error(err);
     });
   }
 };
