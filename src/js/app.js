@@ -17,6 +17,7 @@ App = {
       // App.listenForEvents();
       App.web3Provider = new Web3.providers.HttpProvider('http://localhost:9999');
       web3 = new Web3(App.web3Provider);
+      // App.listenForEvents();
     }
     return App.initContract();
   },
