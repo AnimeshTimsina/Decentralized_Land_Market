@@ -14,7 +14,8 @@ App = {
       web3 = new Web3(web3.currentProvider);
     } else {
       // Specify default instance if no web3 instance provided
-      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
+      // App.listenForEvents();
+      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:9999');
       web3 = new Web3(App.web3Provider);
     }
     return App.initContract();
@@ -26,8 +27,47 @@ App = {
       App.contracts.LandContract = TruffleContract(landcontract);
       // Connect provider to interact with contract
       App.contracts.LandContract.setProvider(App.web3Provider);
-
+      
       return App.render();
+    });
+  },
+
+  listenForEvents: function() {
+    App.contracts.LandContract.deployed().then(function(instance) {
+      // Restart Chrome if you are unable to receive this event
+      // This is a known issue with Metamask
+      // https://github.com/MetaMask/metamask-extension/issues/2393
+      instance.PlotOwnerChanged({}, {
+        fromBlock: 0,
+        toBlock: 'latest'
+      }).watch(function(error, event) {
+        console.log("event triggered", event)
+        // Reload when a new vote is recorded
+        App.render();
+      });
+
+      instance.PlotPriceChanged({}, {
+        fromBlock: 0,
+        toBlock: 'latest'
+      }).watch(function(error, event) {
+        console.log("event triggered", event)
+        // Reload when a new vote is recorded
+        App.render();
+      });
+
+      instance.PlotAvailabilityChanged({}, {
+        fromBlock: 0,
+        toBlock: 'latest'
+      }).watch(function(error, event) {
+        console.log("event triggered", event)
+        // Reload when a new vote is recorded
+        App.render();
+      });
+
+
+
+
+
     });
   },
 
@@ -127,6 +167,14 @@ App = {
           plotSelect.append(option);
 
         }
+        return landInstance.onSaleId();
+        }).then(function(id){
+              var len= id[1];
+              var showPlot=$('#buy_plots');
+              for (var i = 0; i <len; i++) {
+                var options= "<option value='"+id[0][i]+"'>"+id[0][i]+"</option>";
+                showPlot.append(options);
+              }
       loader.hide();
       content.show();
 
@@ -154,7 +202,20 @@ App = {
     }).catch(function(err){
       console.error(err);
     });
-  }
+  },
+
+  buyPlots: function(){
+   var selected= $('#buy_plots').val();
+    App.contracts.LandContract.deployed().then(function(instance) {
+     landInstance = instance;
+     return instance.buyPlot(selected-1, {from: App.account})
+   }).then(function(dummy){
+
+   }).catch(function(error) {
+     console.warn(error);
+   });
+ },
+
 };
 
 $(function() {

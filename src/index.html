@@ -7,31 +7,46 @@
     <title>Land Market</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <style media="screen">
     table {
       border-collapse: collapse;
       }
     table, td, th {
-      border: 1px solid black;
+      font-size:15px;
+      border: 2px solid black;
+      }
+      .center{
+        display:block;
+        margin-left: auto;
+        margin-right: auto;
+        width:22%;
+      }
+      .card {
+        margin: 0 auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
+        border-radius: 10px;
+        border-width: 2px;
       }
     </style>
   </head>
   <body>
-    <div class="container" style="width: 650px;">
+    <img src="land.png" class="center">
+    <div id="loader">
+      <p class="text-center">Loading...</p>
+    </div>
+    <div id="content" style="display: none;">
+    <div class="container-fluid">
       <div class="row">
-        <div class="col-lg-12">
-          <h1 class="text-center">Nepal Land Market</h1>
-          <hr/>
-          <br/>
-          <div id="loader">
-            <p class="text-center">Loading...</p>
-          </div>
-          <div id="content" style="display: none;">
-            <div id="Sale">
+            <div class="col-4" id="Sale">
             <h4> Plots on sale </h4>
-            <table>
-              <thead>
+            <table class="table">
+              <thead class="thead-dark">
                 <tr>
                    <th>Name</th>
                    <th>Price</th>
@@ -42,11 +57,11 @@
               </tbody>
               </table>
     </div>
-    <hr/>
-    <div id="Mine">
+
+    <div class="col-4" id="Mine">
           <h4> My plots </h4>
-          <table>
-          <thead>
+          <table class="table">
+          <thead class="thead-dark">
             <tr>
                <th>Name</th>
                <th>Price</th>
@@ -57,10 +72,13 @@
           <tbody id="myPlots">
           </tbody>
           </table>
-          <hr/>
+          </div>
+
+        <div class="col-4 card" style="width:350px;">
+          <div class="card-body">
            <form onSubmit="App.putItUp(); return false;">
           <div class="form-group">
-                 <label class="textData" for="myPlotSelect">Select a plot to put it up for sale</label>
+                 <label class="textData " for="myPlotSelect">Select a plot to put it up for sale</label>
 
                  <select class="form-control" id="myPlotSelect">
                  </select>
@@ -68,9 +86,10 @@
 
                  <input type="number" id="priceInput"></input>
                </div>
+
          <button type="submit" style="width:100%;border-radius:20px;"class="btn btn-primary">Put it up for sale</button>
 </form>
-<hr/>
+<br>
          <form onSubmit="App.takeOffMarketFunc(); return false;">
         <div class="form-group">
                <label class="textData" for="takeOffPlot">Select a plot to take off of market</label>
@@ -81,14 +100,21 @@
              </div>
        <button type="submit" style="width:100%;border-radius:20px;"class="btn btn-primary">Put it off of market</button>
 </form>
-           </div>
+<br>
+      <form onSubmit="App.buyPlots(); return false;">
+          <label for="buy_plots">Buy plots</label>
+          <select id="buy_plots"></select>
+          <button type="submit">Buy</button>
+        </form>
+</div>
+</div>
+</div>
+</div>
+</div>
 
             <hr/>
             <p id="accountAddress" class="text-center"></p>
-          </div>
-        </div>
-      </div>
-    </div>
+
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

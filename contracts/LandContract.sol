@@ -290,17 +290,10 @@ contract LandContract {
 
     function buyPlot(uint index) public payable {
         Plot storage plot = plots[index];
-
-        require(msg.sender != plot.owner && plot.forSale && msg.value >= plot.price);
-
-
-        balances[plot.owner] += plot.price;
-        balances[msg.sender] -= plot.price;
-
-
+        require(msg.sender != plot.owner && plot.forSale);
+        balances[plot.owner] += msg.value;
         plot.owner = msg.sender;
         plot.forSale = false;
-        plotsForSaleCount --;
         emit PlotOwnerChanged(index);
     }
 
@@ -350,6 +343,19 @@ contract LandContract {
       return (plotID);
     }
 
+    function onSaleId() public view returns(uint[] memory, uint) {
+
+      uint j = 0;
+      uint[] memory plotId = new uint[](12);
+      for (uint i=0;i<12;i++) {
+        Plot storage plot = plots[i];
+        if (plot.forSale&&plot.owner!=msg.sender){
+          plotId[j] = plot.id;
+          j++;
+        }
+      }
+      return (plotId, j);
+    }
 
 
 }
