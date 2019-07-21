@@ -17,7 +17,6 @@ App = {
       // App.listenForEvents();
       App.web3Provider = new Web3.providers.HttpProvider('http://localhost:9999');
       web3 = new Web3(App.web3Provider);
-      // App.listenForEvents();
     }
     return App.initContract();
   },
@@ -28,7 +27,7 @@ App = {
       App.contracts.LandContract = TruffleContract(landcontract);
       // Connect provider to interact with contract
       App.contracts.LandContract.setProvider(App.web3Provider);
-      
+
       return App.render();
     });
   },
@@ -104,9 +103,11 @@ App = {
        var name=plot[4];
        var price=plot[3];
        var location=plot[5];
+       var area=plot[6];
+
 
        //Render Result
-       var plotTemplate="<tr><th>"+name+"</th><td>"+price+"</td><td>"+location+"</td></tr>"
+       var plotTemplate="<tr><th>"+name+"</th><td>"+price+"</td><td>"+location+"</td><td>"+area+"</td></tr>"
        allPlots.append(plotTemplate);
      });
      }
@@ -133,9 +134,11 @@ App = {
          var price=plot[3];
          var location=plot[5];
          var forsale=plot[2];
+         var area=plot[6];
+
 
          //Render Result
-         var plotTemplate="<tr><th>"+name+"</th><td>"+price+"</td><td>"+location+"</td><td>"+forsale+"</td></tr>"
+         var plotTemplate="<tr><th>"+name+"</th><td>"+price+"</td><td>"+location+"</td><td>"+forsale+"</td><td>"+area+"</td></tr>"
          myPlots.append(plotTemplate);
        });
        }

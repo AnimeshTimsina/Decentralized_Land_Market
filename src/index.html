@@ -13,6 +13,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <style media="screen">
+    body{
+      background-image: url(https://static.vecteezy.com/system/resources/previews/000/544/021/large_2x/vector-white-grey-honeycomb-abstract-background-wallpaper-and-texture-concept-minimal-theme.jpg);
+      background-size: cover;
+    }
     table {
       border-collapse: collapse;
       }
@@ -44,13 +48,14 @@
     <div class="container-fluid">
       <div class="row">
             <div class="col-4" id="Sale">
-            <h4> Plots on sale </h4>
-            <table class="table">
+            <h4><b> Plots on sale</b> </h4>
+            <table class="table table-borderless">
               <thead class="thead-dark">
                 <tr>
                    <th>Name</th>
                    <th>Price</th>
                    <th>Location</th>
+                   <th>Area</th>
                  </tr>
               </thead>
               <tbody id="allPlots">
@@ -58,15 +63,16 @@
               </table>
     </div>
 
-    <div class="col-4" id="Mine">
-          <h4> My plots </h4>
-          <table class="table">
+    <div class="col-5" id="Mine">
+          <h4> <b>My plots</b> </h4>
+          <table class="table table-borderless">
           <thead class="thead-dark">
             <tr>
                <th>Name</th>
                <th>Price</th>
                <th>Location</th>
                <th>ForSale</th>
+               <th>Area</th>
              </tr>
           </thead>
           <tbody id="myPlots">
@@ -74,8 +80,8 @@
           </table>
           </div>
 
-        <div class="col-4 card" style="width:350px;">
-          <div class="card-body">
+        <div class="col-3 card" style="width:300px;margin-top:30px;">
+          <div class="card-body text-center">
            <form onSubmit="App.putItUp(); return false;">
           <div class="form-group">
                  <label class="textData " for="myPlotSelect">Select a plot to put it up for sale</label>
@@ -104,7 +110,7 @@
       <form onSubmit="App.buyPlots(); return false;">
           <label for="buy_plots">Buy plots</label>
           <select id="buy_plots"></select>
-          <button type="submit" class="btn btn-primary">Buy</button>
+          <button type="submit">Buy</button>
         </form>
 </div>
 </div>
